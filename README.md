@@ -1,6 +1,6 @@
 ## WisePersist
 
-WisePersist is simple JPA wrapper which provides `@Transactional` annotation and pre-configured
+WisePersist is a simple JPA wrapper which provides `@Transactional` annotation and pre-configured
 Guice module.
 
 
@@ -32,8 +32,7 @@ In Maven projects, use:
 
 ### Add Maven dependency
 
-And then, add dependency to your `build.gradle` (for Gradle projects) or `pom.xml` (for Maven
-projects).
+And then, add the dependency to your `build.gradle` (for Gradle projects) or `pom.xml` (for Maven projects).
 
 In Gradle projects, use:
 
@@ -53,8 +52,7 @@ In Maven projects, use:
 
 ### How to use WisePersist?
 
-In your JPA projects, mark any methods which are expected as transactional with `@Transactional`
-annotation. For example:
+In your JPA projects, mark any methods which are expected to be transactional with `@Transactional` annotation. For example:
 
 ```
 /**
@@ -69,10 +67,7 @@ public class UserDao {
 }
 ```
 
-Each method with `@Transactional` annotation will start a new transaction and commit/rollback the
-transaction automatically. Please note that transactional methods cannot be nested,
-e.g. inside the `saveUser` method mentioned above should not call any other methods annotated
-with `@Transactional`.
+Each method with `@Transactional` annotation will start a new transaction and commit/rollback the transaction automatically. Please note that transactional methods cannot be nested, e.g. inside the `saveUser` method mentioned above should not call any other methods annotated with `@Transactional`.
 
 After that, you can use this DAO with Guice injector. For example:
 
@@ -82,7 +77,9 @@ After that, you can use this DAO with Guice injector. For example:
  */
 public class UserDaoTest {
 
-  private final Injector injector = Guice.createInjector(new WisePersistModule("WTPersistUnitH2"));
+  private final Injector injector = Guice.createInjector(
+      new WisePersistModule("WTPersistUnitH2")
+  );
   private final EntityManagerFactory emf = injector.getInstance(EntityManagerFactory.class);
   private final UserDao userDao = injector.getInstance(UserDao.class);
 
@@ -97,9 +94,6 @@ public class UserDaoTest {
 }
 ```
 
-Add `WisePersistModule` in your Guice injector module list, get a `EntityManagerFactory` instance
-(singleton) from the Guice instance, and also get a `UserDao` instance from the Guice injector,
-now you are ready to go!
+As shown in the code above, the first step is to add `WisePersistModule` in the module list when creating the Guice injector, and then get a `EntityManagerFactory` instance (it's singleton) from the Guice injector, and then get a `UserDao` instance from the Guice injector, now you are ready to go!
 
-With this simple tiny framework, we don't need to manually begin and close transactions again and
- again.
+With this simple tiny framework, we don't need to manually begin and close transactions again and again.
