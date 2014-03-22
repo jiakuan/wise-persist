@@ -19,7 +19,7 @@ apply plugin: 'maven'
 //    apply plugin: 'idea'
 
 group = 'io.wisetime'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 archivesBaseName = 'wise-persist'
 
 sourceCompatibility = 1.7
