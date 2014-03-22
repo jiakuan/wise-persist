@@ -69,7 +69,7 @@ ext.userHome = System.getProperty("user.home")
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file://${userHome}/mvn-repo/")
+            repository(url: "file://${userHome}/Dropbox/Public/mvn-repo/")
         }
     }
 }
