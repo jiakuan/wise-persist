@@ -104,4 +104,4 @@ injector, now you are ready to go!
 With this simple tiny framework, we don't need to manually begin and close transactions again and
  again.
 
-Any thoughts/feedback, please feel free to contact me at [delgiht.wjk@gmail.com]
+Any thoughts/feedback, please feel free to contact me at delgiht.wjk@gmail.com
