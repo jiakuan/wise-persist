@@ -89,7 +89,7 @@ public class UserDaoTest {
   @Test
   public void testSaveUser() throws Exception {
     User user = new User();
-    user.setEmail("jake@wisetime.io");
+    user.setEmail("delight.wjk@gmail.com");
     user.setFirstName("Jake");
     user.setLastName("Wang");
     userDao.saveUser(emf.createEntityManager(), user);
@@ -104,3 +104,4 @@ injector, now you are ready to go!
 With this simple tiny framework, we don't need to manually begin and close transactions again and
  again.
 
+Any thoughts/feedback, please feel free to contact me at [delgiht.wjk@gmail.com]
