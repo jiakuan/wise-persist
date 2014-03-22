@@ -65,10 +65,10 @@ build {
     }
 }
 
+ext.userHome = System.getProperty("user.home")
 uploadArchives {
     repositories {
         mavenDeployer {
-            userHome = System.getProperty("user.home")
             repository(url: "file://${userHome}/mvn-repo/")
         }
     }
