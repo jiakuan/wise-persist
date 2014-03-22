@@ -1,0 +1,8 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    // toolVersion = '5.7'
+    configFile = new File(rootDir, 'checkstyle.xml')
+    ignoreFailures = false
+    showViolations = true
+}
