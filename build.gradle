@@ -19,7 +19,7 @@ apply plugin: 'maven'
 //    apply plugin: 'idea'
 
 group = 'io.wisetime'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.1-SNAPSHOT'
 archivesBaseName = 'wise-persist'
 
 sourceCompatibility = 1.7
@@ -65,10 +65,10 @@ build {
     }
 }
 
+ext.userHome = System.getProperty("user.home")
 uploadArchives {
     repositories {
         mavenDeployer {
-            userHome = System.getProperty("user.home")
             repository(url: "file://${userHome}/mvn-repo/")
         }
     }
