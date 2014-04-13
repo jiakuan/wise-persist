@@ -37,7 +37,7 @@ And then, add the dependency to your `build.gradle` (for Gradle projects) or `po
 In Gradle projects, use:
 
 ```
-compile 'io.wisetime:wise-persist:1.0.0'
+compile 'io.wisetime:wise-persist:1.0.1'
 ```
 
 In Maven projects, use:
@@ -46,7 +46,7 @@ In Maven projects, use:
 <dependency>
     <groupId>io.wisetime</groupId>
     <artifactId>wise-persist</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
