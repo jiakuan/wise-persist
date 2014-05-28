@@ -34,7 +34,9 @@ public abstract class DaoMethodInterceptor implements MethodInterceptor {
     Method setMethod = dao.getClass().getMethod("setEntityManager", EntityManager.class);
     setMethod.invoke(dao, entityManager);
 
-    return invokeWithEntityManager(invocation, entityManager);
+    Object result = invokeWithEntityManager(invocation, entityManager);
+    setMethod.invoke(dao, (EntityManager) null);
+    return result;
   }
 
   protected abstract Object invokeWithEntityManager(
