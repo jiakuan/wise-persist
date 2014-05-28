@@ -13,22 +13,17 @@ import javax.persistence.EntityManager;
 /**
  * @author jiakuanwang
  */
-public class TransactionalInterceptor extends DaoMethodInterceptor {
+public class NonTransactionalInterceptor extends DaoMethodInterceptor {
 
-  private static Logger log = LoggerFactory.getLogger(TransactionalInterceptor.class);
+  private static Logger log = LoggerFactory.getLogger(NonTransactionalInterceptor.class);
 
   @Override
   protected Object invokeWithEntityManager(MethodInvocation invocation, EntityManager entityManager)
       throws Throwable {
     try {
-      entityManager.getTransaction().begin();
-      Object result = invocation.proceed();
-      entityManager.getTransaction().commit();
-
-      return result;
+      return invocation.proceed();
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      entityManager.getTransaction().rollback();
       throw e;
     } finally {
       if (entityManager != null && entityManager.isOpen()) {
