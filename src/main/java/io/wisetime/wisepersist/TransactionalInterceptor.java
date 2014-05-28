@@ -17,6 +17,11 @@ public class TransactionalInterceptor extends DaoMethodInterceptor {
 
   private static Logger log = LoggerFactory.getLogger(TransactionalInterceptor.class);
 
+  public TransactionalInterceptor(String persistUnit) {
+    super(persistUnit);
+  }
+
+
   @Override
   protected Object invokeWithEntityManager(MethodInvocation invocation, EntityManager entityManager)
       throws Throwable {

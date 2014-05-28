@@ -5,11 +5,7 @@
 package io.wisetime.wisepersist;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * Wrapper to inject EntityManagerFactory objects as required.
@@ -24,14 +20,7 @@ public class WisePersistModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bindConstant().annotatedWith(PersistUnit.class).to(persistUnit);
-
-    bind(EntityManagerFactory.class)
-        .toProvider(EntityManagerFactoryProvider.class).in(Singleton.class);
-
-    bind(EntityManager.class).toProvider(EntityManagerProvider.class);
-
-    TransactionalInterceptor transactionalInterceptor = new TransactionalInterceptor();
+    TransactionalInterceptor transactionalInterceptor = new TransactionalInterceptor(persistUnit);
     requestInjection(transactionalInterceptor);
     bindInterceptor(
         Matchers.any(),
@@ -39,7 +28,9 @@ public class WisePersistModule extends AbstractModule {
         transactionalInterceptor
     );
 
-    TransactionalInterceptor nonTransactionalInterceptor = new TransactionalInterceptor();
+    TransactionalInterceptor
+        nonTransactionalInterceptor =
+        new TransactionalInterceptor(persistUnit);
     bindInterceptor(
         Matchers.any(),
         Matchers.annotatedWith(NonTransactional.class),

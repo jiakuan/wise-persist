@@ -17,6 +17,10 @@ public class NonTransactionalInterceptor extends DaoMethodInterceptor {
 
   private static Logger log = LoggerFactory.getLogger(NonTransactionalInterceptor.class);
 
+  public NonTransactionalInterceptor(String persistUnit) {
+    super(persistUnit);
+  }
+
   @Override
   protected Object invokeWithEntityManager(MethodInvocation invocation, EntityManager entityManager)
       throws Throwable {

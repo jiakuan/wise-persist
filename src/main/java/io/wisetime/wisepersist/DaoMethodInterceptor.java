@@ -4,8 +4,6 @@
 
 package io.wisetime.wisepersist;
 
-import com.google.inject.Inject;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -19,8 +17,11 @@ import javax.persistence.EntityManagerFactory;
  */
 public abstract class DaoMethodInterceptor implements MethodInterceptor {
 
-  @Inject
-  private EntityManagerFactory emf;
+  private final EntityManagerFactory emf;
+
+  public DaoMethodInterceptor(String persistUnit) {
+    emf = EntityManagerFactoryProvider.get(persistUnit);
+  }
 
   @Override
   public Object invoke(MethodInvocation invocation) throws Throwable {
