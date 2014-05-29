@@ -35,6 +35,15 @@ public class UserDao extends AbstractDao {
   }
 
   /**
+   * This is a wrong method which should throw exception.
+   */
+  @Transactional
+  public User wrongMethod(String email) {
+    Optional<User> userOpt = findByEmail(email);
+    return userOpt.isPresent() ? userOpt.get() : null;
+  }
+
+  /**
    * Dangerous method for unit test only.
    */
   @Transactional

@@ -16,12 +16,16 @@ public abstract class AbstractDao {
   protected EntityManager getEntityManager() {
     if (entityManager == null) {
       throw new IllegalStateException(
-          "All public methods should be annotated with @Transactional or @NonTransactional");
+          "All public DAO methods should be annotated with @Transactional or @NonTransactional");
     }
     return entityManager;
   }
 
   public void setEntityManager(EntityManager entityManager) {
+    if (this.entityManager != null && entityManager != null) {
+      throw new IllegalStateException(
+          "DAO methods annotated with @Transactional or @NonTransactional cannot be nested");
+    }
     this.entityManager = entityManager;
   }
 }

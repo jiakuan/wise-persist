@@ -13,6 +13,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * @author jiakuanwang
  */
@@ -50,6 +52,14 @@ public class UserDaoTest {
     Assert.assertEquals(retrieved.get().getEmail(), user.getEmail());
     Assert.assertEquals(retrieved.get().getFirstName(), user.getFirstName());
     Assert.assertEquals(retrieved.get().getLastName(), user.getLastName());
+  }
+
+  @Test(expectedExceptions = InvocationTargetException.class)
+  public void testWrongMethod() {
+    User user = createUser();
+    userDao.saveUser(user);
+
+    userDao.wrongMethod(user.getEmail());
   }
 
   private User createUser() {
