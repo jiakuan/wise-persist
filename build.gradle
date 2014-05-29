@@ -41,7 +41,8 @@ configurations.all {
 
         // force certain versions of dependencies (including transitive)
         //  *append new forced modules:
-        force 'xml-apis:xml-apis:2.0.2'
+        force 'xml-apis:xml-apis:2.0.2',
+              'org.slf4j:slf4j-api:1.7.6'
     }
 }
 
