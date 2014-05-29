@@ -18,12 +18,12 @@ public class UserDao extends AbstractDao {
 
   @Transactional
   public User saveUser(User user) {
-    return getEntityManager().merge(user);
+    return em().merge(user);
   }
 
   @NonTransactional
   public Optional<User> findByEmail(String email) {
-    TypedQuery<User> query = getEntityManager().createQuery(
+    TypedQuery<User> query = em().createQuery(
         "SELECT user FROM User user WHERE user.email=:email", User.class
     );
     query.setParameter("email", email);
@@ -48,7 +48,7 @@ public class UserDao extends AbstractDao {
    */
   @Transactional
   public synchronized int deleteAll() {
-    Query query = getEntityManager().createNativeQuery("DELETE FROM users");
+    Query query = em().createNativeQuery("DELETE FROM users");
     return query.executeUpdate();
   }
 }

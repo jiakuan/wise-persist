@@ -13,7 +13,7 @@ public abstract class AbstractDao {
 
   private EntityManager entityManager;
 
-  protected EntityManager getEntityManager() {
+  protected EntityManager em() {
     if (entityManager == null) {
       throw new IllegalStateException(
           "All public DAO methods should be annotated with @Transactional or @NonTransactional");
