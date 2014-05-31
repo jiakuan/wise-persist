@@ -8,6 +8,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
+
 import javax.persistence.EntityManager;
 
 /**
@@ -28,7 +30,9 @@ public class NonTransactionalInterceptor extends DaoMethodInterceptor {
       return invocation.proceed();
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw e;
+      Method method = invocation.getMethod();
+      throw new DaoException(String.format(
+          "Failed to execute %s.%s", method.getDeclaringClass(), method.getName()), e);
     } finally {
       if (entityManager != null && entityManager.isOpen()) {
         entityManager.close();

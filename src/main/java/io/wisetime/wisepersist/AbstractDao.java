@@ -11,21 +11,21 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractDao {
 
-  private EntityManager entityManager;
+  private static final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<>();
 
   protected EntityManager em() {
-    if (entityManager == null) {
+    if (threadLocal.get() == null) {
       throw new IllegalStateException(
           "All public DAO methods should be annotated with @Transactional or @NonTransactional");
     }
-    return entityManager;
+    return threadLocal.get();
   }
 
   public void setEntityManager(EntityManager entityManager) {
-    if (this.entityManager != null && entityManager != null) {
+    if (threadLocal.get() != null && entityManager != null) {
       throw new IllegalStateException(
           "DAO methods annotated with @Transactional or @NonTransactional cannot be nested");
     }
-    this.entityManager = entityManager;
+    threadLocal.set(entityManager);
   }
 }

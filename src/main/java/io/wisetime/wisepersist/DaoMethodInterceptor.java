@@ -7,6 +7,7 @@ package io.wisetime.wisepersist;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.persistence.EntityManager;
@@ -33,8 +34,13 @@ public abstract class DaoMethodInterceptor implements MethodInterceptor {
     }
 
     Method setMethod = dao.getClass().getMethod("setEntityManager", EntityManager.class);
-    setMethod.invoke(dao, entityManager);
-
+    try {
+      setMethod.invoke(dao, entityManager);
+    } catch (InvocationTargetException e) {
+      Method method = invocation.getMethod();
+      throw new DaoException(
+          String.format("%s.%s cannot be nested", method.getDeclaringClass(), method.getName()), e);
+    }
     try {
       return invokeWithEntityManager(invocation, entityManager);
     } finally {
