@@ -47,7 +47,7 @@ public class UserDao extends AbstractDao {
    * Dangerous method for unit test only.
    */
   @Transactional
-  public synchronized int deleteAll() {
+  protected synchronized int deleteAll() {
     Query query = em().createNativeQuery("DELETE FROM users");
     return query.executeUpdate();
   }

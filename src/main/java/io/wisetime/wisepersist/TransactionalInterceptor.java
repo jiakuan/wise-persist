@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * @author jiakuanwang
@@ -23,6 +24,9 @@ public class TransactionalInterceptor extends DaoMethodInterceptor {
     super(persistUnit);
   }
 
+  public TransactionalInterceptor(EntityManagerFactory emf) {
+    super(emf);
+  }
 
   @Override
   protected Object invokeWithEntityManager(MethodInvocation invocation, EntityManager entityManager)

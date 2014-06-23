@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 /**
  * @author jiakuanwang
@@ -21,6 +22,10 @@ public class NonTransactionalInterceptor extends DaoMethodInterceptor {
 
   public NonTransactionalInterceptor(String persistUnit) {
     super(persistUnit);
+  }
+
+  public NonTransactionalInterceptor(EntityManagerFactory emf) {
+    super(emf);
   }
 
   @Override

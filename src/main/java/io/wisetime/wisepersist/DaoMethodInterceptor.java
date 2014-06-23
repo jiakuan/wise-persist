@@ -24,6 +24,10 @@ public abstract class DaoMethodInterceptor implements MethodInterceptor {
     emf = EntityManagerFactoryProvider.get(persistUnit);
   }
 
+  public DaoMethodInterceptor(EntityManagerFactory emf) {
+    this.emf = emf;
+  }
+
   @Override
   public Object invoke(MethodInvocation invocation) throws Throwable {
     EntityManager entityManager = emf.createEntityManager();

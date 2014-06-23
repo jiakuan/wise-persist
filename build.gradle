@@ -79,7 +79,7 @@ dependencies {
     testCompile 'org.codehaus.janino:janino:2.6.1'
 
     testCompile 'com.h2database:h2:1.4.178'
-    testCompile 'com.googlecode.jmockit:jmockit:1.7'
+    testCompile 'org.jmockit:jmockit:1.8'
     testCompile 'org.testng:testng:6.8.8'
 }
 
