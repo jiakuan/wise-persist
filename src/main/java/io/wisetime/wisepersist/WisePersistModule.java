@@ -4,6 +4,8 @@
 
 package io.wisetime.wisepersist;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 
@@ -18,11 +20,14 @@ public class WisePersistModule extends AbstractModule {
   private final EntityManagerFactory emf;
 
   public WisePersistModule(String persistUnit) {
+    Preconditions.checkArgument(
+        !Strings.isNullOrEmpty(persistUnit), "persistUnit cannot be null or empty");
     this.persistUnit = persistUnit;
     this.emf = null;
   }
 
   public WisePersistModule(EntityManagerFactory emf) {
+    Preconditions.checkArgument(emf != null, "EntityManagerFactory cannot be null");
     this.persistUnit = null;
     this.emf = emf;
   }
