@@ -52,7 +52,9 @@ In Maven projects, use:
 
 ### How to use WisePersist?
 
-In your JPA projects, mark any methods which are expected to be transactional with `@Transactional` annotation. For example:
+In your JPA projects, mark any public methods which are expected to be transactional with `@Transactional` annotation or `@NonTransactional` for non transactional methods. Please note that all public methods in your DAO classes must be annotated by either `@Transactional` or `@NonTransactional`, or you will get exception mentioning this.
+
+For example:
 
 ```
 /**
@@ -106,7 +108,7 @@ public class UserDaoTest {
     user.setEmail("delight.wjk@gmail.com");
     user.setFirstName("Jake");
     user.setLastName("Wang");
-    userDao.saveUser(emf.createEntityManager(), user);
+    userDao.saveUser(user);
   }
 }
 ```
