@@ -1,6 +1,6 @@
 ## WisePersist
 
-WisePersist is a simple JPA wrapper which provides `@Transactional` annotation and pre-configured
+WisePersist is a simple JPA wrapper which provides `@Transactional` and `@NonTransactional` annotations and pre-configured
 Guice module.
 
 
@@ -37,7 +37,7 @@ And then, add the dependency to your `build.gradle` (for Gradle projects) or `po
 In Gradle projects, use:
 
 ```
-compile 'io.wisetime:wise-persist:1.0.1'
+compile 'io.wisetime:wise-persist:1.0.2-SNAPSHOT'
 ```
 
 In Maven projects, use:
@@ -46,7 +46,7 @@ In Maven projects, use:
 <dependency>
     <groupId>io.wisetime</groupId>
     <artifactId>wise-persist</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -58,16 +58,34 @@ In your JPA projects, mark any methods which are expected to be transactional wi
 /**
  * @author jiakuanwang
  */
-public class UserDao {
+public class UserDao extends AbstractDao {
 
   @Transactional
-  public User saveUser(EntityManager em, User user) {
-    return em.merge(user);
+  public User saveUser(User user) {
+    return em().merge(user);
+  }
+
+  @NonTransactional
+  public User Optional<User> findById(Long userId) {
+    TypedQuery<DataUser> query =
+        em().createQuery("SELECT u FROM User u WHERE u=:userId", DataUser.class);
+    query.setParameter("userId", userId);
+
+    List<User> userList = query.getResultList();
+    if (userList != null && userList.size() > 0) {
+	  User user = userList.get(0);
+      return Optional.of(user);
+    }
+    return Optional.absent();
   }
 }
 ```
 
-Each method with `@Transactional` annotation will start a new transaction and commit/rollback the transaction automatically. Please note that transactional methods cannot be nested, e.g. inside the `saveUser` method mentioned above should not call any other methods annotated with `@Transactional`.
+Firstly, we need to extend the AbstractDao class for every DAO class.
+
+In public DAO methods, we could just use `em()` to get the current available entity manager instance.
+
+Each method with `@Transactional` annotation will start a new transaction and commit/rollback the transaction automatically. Please note that transactional methods cannot be nested. That is, in the example above, inside the `saveUser` method mentioned above should not call any other methods annotated with `@Transactional` or `@NonTransactional`.
 
 After that, you can use this DAO with Guice injector. For example:
 
@@ -80,7 +98,6 @@ public class UserDaoTest {
   private final Injector injector = Guice.createInjector(
       new WisePersistModule("WTPersistUnitH2")
   );
-  private final EntityManagerFactory emf = injector.getInstance(EntityManagerFactory.class);
   private final UserDao userDao = injector.getInstance(UserDao.class);
 
   @Test
@@ -94,6 +111,6 @@ public class UserDaoTest {
 }
 ```
 
-As shown in the code above, the first step is to add `WisePersistModule` in the module list when creating the Guice injector, and then get a `EntityManagerFactory` instance (it's singleton) from the Guice injector, and then get a `UserDao` instance from the Guice injector, now you are ready to go!
+As shown in the code above, the first step is to create `WisePersistModule` with persist unit name (or you could pass a custom entity manager factory) and put in the Guice module list when creating the Guice injector, and then get a `UserDao` instance from the Guice injector, now you are ready to go!
 
 With this simple tiny framework, we don't need to manually begin and close transactions again and again.
