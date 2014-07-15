@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 JakeCode Co., Ltd. All rights reserved.
+ * Copyright (c) 2014 WiseTime Pty Ltd, Ltd. All rights reserved.
  */
 
 package io.wisetime.wisepersist;
