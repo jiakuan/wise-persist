@@ -47,7 +47,9 @@ public class WisePersistModule extends AbstractModule {
     // http://www.mattinsler.com/post/26548709502/google-guice-module-de-duplication
     boolean equals = (this == o) || !(o == null || getClass() != o.getClass());
     if (equals) {
-      throw new DaoException("Only one WisePersistModule can be created");
+      throw new DaoException(
+          "Only one WisePersistModule can be created in one Guice injector. " +
+          "If you need to access multiple data sources, please create separately Guice injectors.");
     } else {
       return false;
     }
