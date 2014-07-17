@@ -2,7 +2,7 @@ apply plugin: 'checkstyle'
 
 checkstyle {
     // toolVersion = '5.7'
-    configFile = new File(rootDir, 'checkstyle.xml')
+    configFile = new File(rootDir, 'gradle' + File.separator + 'checkstyle.xml')
     ignoreFailures = false
     showViolations = true
 }

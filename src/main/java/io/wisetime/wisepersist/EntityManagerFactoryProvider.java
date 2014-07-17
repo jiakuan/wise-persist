@@ -4,6 +4,8 @@
 
 package io.wisetime.wisepersist;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class EntityManagerFactoryProvider {
   private static final Map<String, EntityManagerFactory> cache = Maps.newHashMap();
 
   public static EntityManagerFactory get(String persistUnit) {
+    Preconditions.checkArgument(
+        !Strings.isNullOrEmpty(persistUnit), "persistUnit cannot be null or empty");
+
     EntityManagerFactory emf = cache.get(persistUnit);
     if (emf == null) {
       emf = Persistence.createEntityManagerFactory(persistUnit);

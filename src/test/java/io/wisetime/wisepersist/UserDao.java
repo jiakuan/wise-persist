@@ -38,7 +38,7 @@ public class UserDao extends AbstractDao {
    * This is a wrong method which should throw exception.
    */
   @Transactional
-  public User nestFindByEmail(String email) {
+  public User nestedFindByEmail(String email) {
     Optional<User> userOpt = findByEmail(email);
     return userOpt.isPresent() ? userOpt.get() : null;
   }

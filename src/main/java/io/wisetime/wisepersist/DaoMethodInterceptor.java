@@ -25,11 +25,6 @@ public class DaoMethodInterceptor implements MethodInterceptor {
   private final EntityManagerFactory emf;
   private final boolean useTransaction;
 
-  public DaoMethodInterceptor(String persistUnit, boolean useTransaction) {
-    emf = EntityManagerFactoryProvider.get(persistUnit);
-    this.useTransaction = useTransaction;
-  }
-
   public DaoMethodInterceptor(EntityManagerFactory emf, boolean useTransaction) {
     this.emf = emf;
     this.useTransaction = useTransaction;
@@ -46,10 +41,9 @@ public class DaoMethodInterceptor implements MethodInterceptor {
           dao.getClass().getName() + " must extend " + AbstractDao.class.getName());
     }
 
-    Method setMethod =
-        dao.getClass().getMethod("setEntityManager", EntityManager.class, boolean.class);
+    Method setMethod = dao.getClass().getMethod("setEntityManager", EntityManager.class);
     try {
-      setMethod.invoke(dao, entityManager, useTransaction);
+      setMethod.invoke(dao, entityManager);
     } catch (InvocationTargetException e) {
       throw new DaoException(String.format(
           "%s.%s cannot be nested", daoMethod.getDeclaringClass(), daoMethod.getName()), e);
@@ -80,7 +74,7 @@ public class DaoMethodInterceptor implements MethodInterceptor {
           entityManager.close();
         }
       } finally {
-        setMethod.invoke(dao, null, useTransaction);
+        setMethod.invoke(dao, (EntityManager) null);
       }
     }
   }

@@ -25,9 +25,9 @@ archivesBaseName = 'wise-persist'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-apply from: "$rootDir/checkstyle.gradle"
-apply from: "$rootDir/pmd.gradle"
-apply from: "$rootDir/findbugs.gradle"
+apply from: "$rootDir/gradle/checkstyle.gradle"
+apply from: "$rootDir/gradle/pmd.gradle"
+apply from: "$rootDir/gradle/findbugs.gradle"
 
 repositories {
     mavenCentral()

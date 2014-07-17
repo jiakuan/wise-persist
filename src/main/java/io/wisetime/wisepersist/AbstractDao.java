@@ -4,17 +4,12 @@
 
 package io.wisetime.wisepersist;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.persistence.EntityManager;
 
 /**
  * @author jiakuanwang
  */
 public abstract class AbstractDao {
-
-  private static final Logger log = LoggerFactory.getLogger(AbstractDao.class);
 
   private static final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<>();
 
@@ -26,21 +21,30 @@ public abstract class AbstractDao {
     return threadLocal.get();
   }
 
-  public void setEntityManager(EntityManager entityManager, boolean useTransaction) {
-    EntityManager currentEm = threadLocal.get();
-    if (currentEm != null) {
-      if (useTransaction && currentEm.getTransaction().isActive()) {
-        try {
-          currentEm.getTransaction().commit();
-        } catch (Exception e) {
-          log.error(e.getMessage(), e);
-          currentEm.getTransaction().rollback();
-        }
-      }
-      if (currentEm.isOpen()) {
-        currentEm.close();
-      }
+  public void setEntityManager(EntityManager entityManager) {
+    if (threadLocal.get() != null && entityManager != null) {
+      throw new DaoException(
+          "DAO methods annotated with @Transactional or @NonTransactional cannot be nested");
     }
     threadLocal.set(entityManager);
   }
+
+// TODO(Jake): Do we need to support nested methods?
+//  public void setEntityManager(EntityManager entityManager, boolean useTransaction) {
+//    EntityManager currentEm = threadLocal.get();
+//    if (currentEm != null) {
+//      if (useTransaction && currentEm.getTransaction().isActive()) {
+//        try {
+//          currentEm.getTransaction().commit();
+//        } catch (Exception e) {
+//          log.error(e.getMessage(), e);
+//          currentEm.getTransaction().rollback();
+//        }
+//      }
+//      if (currentEm.isOpen()) {
+//        currentEm.close();
+//      }
+//    }
+//    threadLocal.set(entityManager);
+//  }
 }

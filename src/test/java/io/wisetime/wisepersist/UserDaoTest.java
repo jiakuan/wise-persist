@@ -13,6 +13,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertNotNull;
+
 /**
  * @author jiakuanwang
  */
@@ -35,8 +37,8 @@ public class UserDaoTest {
   public void testSaveUser() throws Exception {
     User user = createUser();
     User saved = userDao.saveUser(user);
-    Assert.assertNotNull(saved);
-    Assert.assertNotNull(saved.getId());
+    assertNotNull(saved);
+    assertNotNull(saved.getId());
     Assert.assertEquals(saved.getEmail(), user.getEmail());
   }
 
@@ -52,15 +54,26 @@ public class UserDaoTest {
     Assert.assertEquals(retrieved.get().getLastName(), user.getLastName());
   }
 
-  @Test
-  public void testNestFindByEmail() {
+  @Test(expectedExceptions = DaoException.class)
+  public void testNestedFindByEmail() {
     User user = createUser();
     userDao.saveUser(user);
 
-    User loaded = userDao.nestFindByEmail(user.getEmail());
-    Assert.assertNotNull(loaded);
-    Assert.assertNotNull(loaded.getId());
-    Assert.assertEquals(loaded.getEmail(), user.getEmail());
+    userDao.nestedFindByEmail(user.getEmail());
+  }
+
+  @Test(expectedExceptions = DaoException.class)
+  public void testInitialization_WithException() {
+    Guice.createInjector(
+        new WisePersistModule("WisePersistUnitH2"),
+        new WisePersistModule("WisePersistUnitH2")
+    );
+  }
+
+  @Test
+  public void testInitialization_WithoutException() {
+    assertNotNull(Guice.createInjector(new WisePersistModule("WisePersistUnitH2")));
+    assertNotNull(Guice.createInjector(new WisePersistModule("WisePersistUnitH2")));
   }
 
   private User createUser() {
