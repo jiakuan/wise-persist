@@ -52,12 +52,15 @@ public class UserDaoTest {
     Assert.assertEquals(retrieved.get().getLastName(), user.getLastName());
   }
 
-  @Test(expectedExceptions = DaoException.class)
-  public void testWrongMethod() {
+  @Test
+  public void testNestFindByEmail() {
     User user = createUser();
     userDao.saveUser(user);
 
-    userDao.wrongMethod(user.getEmail());
+    User loaded = userDao.nestFindByEmail(user.getEmail());
+    Assert.assertNotNull(loaded);
+    Assert.assertNotNull(loaded.getId());
+    Assert.assertEquals(loaded.getEmail(), user.getEmail());
   }
 
   private User createUser() {

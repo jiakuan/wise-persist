@@ -23,8 +23,8 @@ In Maven projects, use:
 ```
 <repositories>
     <repository>
-        <id>jake-dropbox</id>
-        <name>jake-dropbox</name>
+        <id>wisepersist-dropbox</id>
+        <name>wisepersist-dropbox</name>
         <url>https://dl.dropboxusercontent.com/u/13110611/mvn-repo</url>
     </repository>
 </repositories>

@@ -32,13 +32,12 @@ public class WisePersistModule extends AbstractModule {
     this.emf = emf;
   }
 
-
   @Override
   protected void configure() {
-    TransactionalInterceptor transactionalInterceptor =
+    DaoMethodInterceptor transactionalInterceptor =
         emf != null
-        ? new TransactionalInterceptor(emf)
-        : new TransactionalInterceptor(persistUnit);
+        ? new DaoMethodInterceptor(emf, true)
+        : new DaoMethodInterceptor(persistUnit, true);
     requestInjection(transactionalInterceptor);
     bindInterceptor(
         Matchers.any(),
@@ -46,10 +45,10 @@ public class WisePersistModule extends AbstractModule {
         transactionalInterceptor
     );
 
-    NonTransactionalInterceptor nonTransactionalInterceptor =
+    DaoMethodInterceptor nonTransactionalInterceptor =
         emf != null
-        ? new NonTransactionalInterceptor(emf)
-        : new NonTransactionalInterceptor(persistUnit);
+        ? new DaoMethodInterceptor(emf, false)
+        : new DaoMethodInterceptor(persistUnit, false);
     bindInterceptor(
         Matchers.any(),
         Matchers.annotatedWith(NonTransactional.class),
