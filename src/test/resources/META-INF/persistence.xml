@@ -11,7 +11,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
     <!-- JPA entities -->
-    <class>io.wisetime.wisepersist.User</class>
+    <class>org.wisepersist.User</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

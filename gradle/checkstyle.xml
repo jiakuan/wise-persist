@@ -25,10 +25,10 @@ page at http://checkstyle.sourceforge.net/config.html -->
       </pre>
     -->
     <property name="format"
-              value="^(//| \*|#) Copyright (\([cC]\) )?[\d]{4}(\-[\d]{4})? (WiseTime Pty Ltd).*$"/>
+              value="^(//| \*|#) Copyright (\([cC]\) )?[\d]{4}(\-[\d]{4})? (WisePersist).*$"/>
     <property name="minimum" value="1"/>
     <property name="maximum" value="10"/>
-    <property name="message" value="WiseTime Pty Ltd copyright is missing or malformed."/>
+    <property name="message" value="WisePersist copyright is missing or malformed."/>
     <property name="severity" value="error"/>
   </module>
 

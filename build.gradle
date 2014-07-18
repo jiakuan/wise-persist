@@ -17,10 +17,11 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 //    apply plugin: 'idea'
+apply plugin: 'signing'
 
-group = 'io.wisetime'
-version = '1.0.2-SNAPSHOT'
+group = 'org.wisepersist'
 archivesBaseName = 'wise-persist'
+version = '1.0.2-SNAPSHOT'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -107,13 +108,69 @@ artifacts {
     archives javadocJar
 }
 
+signing {
+    sign configurations.archives
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file://${userHome}/Dropbox/Public/mvn-repo/")
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'WisePersist'
+                packaging 'jar'
+                description 'WisePersist is a simple JPA wrapper which provides @Transactional and @NonTransactional annotations and pre-configured Guice module.'
+                url 'http://wisepersist.org/'
+
+                scm {
+                    connection 'scm:git:git@github.com:jiakuan/wise-persist.git'
+                    developerConnection 'scm:git:git@github.com:jiakuan/wise-persist.git'
+                    url 'git@github.com:jiakuan/wise-persist.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'jiakuan'
+                        name 'Jiakuan Wang'
+                        email 'jiakuan.wang@gmail.com'
+                        organization 'Headwise Systems'
+                        organizationUrl 'http://headwise.systems'
+                        roles {
+                            role 'architect'
+                            role 'developer'
+                        }
+                        timezone '+8'
+                    }
+                }
+            }
         }
     }
 }
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: "file://${userHome}/Dropbox/Public/mvn-repo/")
+//        }
+//    }
+//}
 
 task createPom << {
     pom {
