@@ -62,6 +62,13 @@ In your JPA projects, mark any public methods which are expected to be transacti
 For example:
 
 ```
+import com.google.common.base.Optional;
+
+import java.util.List;
+
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 /**
  * @author jiakuanwang
  */
@@ -88,7 +95,7 @@ public class UserDao extends AbstractDao {
 }
 ```
 
-Firstly, we need to extend the AbstractDao class for every DAO class.
+In the example above, we need to extend the AbstractDao class for every DAO class firstly.
 
 In public DAO methods, we could just use `em()` to get the current available entity manager instance.
 
