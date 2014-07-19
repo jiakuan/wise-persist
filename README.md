@@ -66,6 +66,10 @@ import com.google.common.base.Optional;
 
 import java.util.List;
 
+import org.wisepersist.AbstractDao;
+import org.wisepersist.NonTransactional;
+import org.wisepersist.Transactional;
+
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
