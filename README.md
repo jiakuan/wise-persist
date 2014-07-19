@@ -4,49 +4,27 @@ WisePersist is a simple JPA wrapper which provides `@Transactional` and `@NonTra
 Guice module.
 
 
-### Configure Maven repository
+### Configure Maven dependency
 
-Firstly, add the Maven repository to your projects:
+WisePersist is available in Maven central repository: 
 
-In Gradle projects, use:
+http://search.maven.org/#search%7Cga%7C1%7Cwise-persist
 
-```
-repositories {
-    maven {
-        url "https://dl.dropboxusercontent.com/u/13110611/mvn-repo"
-    }
-}
-```
+To add the dependency to your `build.gradle` (for Gradle projects) or `pom.xml` (for Maven projects), use the following configuration:
 
-In Maven projects, use:
+For Gradle projects:
 
 ```
-<repositories>
-    <repository>
-        <id>wisepersist-dropbox</id>
-        <name>wisepersist-dropbox</name>
-        <url>https://dl.dropboxusercontent.com/u/13110611/mvn-repo</url>
-    </repository>
-</repositories>
+compile 'org.wisepersist:wise-persist:1.0.2'
 ```
 
-### Add Maven dependency
-
-And then, add the dependency to your `build.gradle` (for Gradle projects) or `pom.xml` (for Maven projects).
-
-In Gradle projects, use:
-
-```
-compile 'io.wisetime:wise-persist:1.0.2-SNAPSHOT'
-```
-
-In Maven projects, use:
+For Maven projects:
 
 ```
 <dependency>
-    <groupId>io.wisetime</groupId>
+    <groupId>org.wisepersist</groupId>
     <artifactId>wise-persist</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
