@@ -28,6 +28,33 @@ For Maven projects:
 </dependency>
 ```
 
+If you would like to use the 1.0.3-SNAPSHOT release, use this configuration.
+
+```
+<dependency>
+    <groupId>org.wisepersist</groupId>
+    <artifactId>wise-persist</artifactId>
+    <version>1.0.3-SNAPSHOT</version>
+</dependency>
+```
+
+In order to use snapshot releases you also need to add the Sonatype snapshots repository to your POM:
+
+```
+<repositories>
+    <repository>
+        <id>sonatype-nexus-snapshots</id>
+        <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </repository>
+</repositories>
+```
+
 ### How to use WisePersist?
 
 In your JPA projects, mark any public methods which are expected to be transactional with `@Transactional` annotation or `@NonTransactional` for non transactional methods. Please note that all public methods in your DAO classes must be annotated by either `@Transactional` or `@NonTransactional`, or you will get exception mentioning this.
