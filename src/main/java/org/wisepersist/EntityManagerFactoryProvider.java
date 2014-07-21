@@ -43,7 +43,12 @@ public class EntityManagerFactoryProvider {
 
     EntityManagerFactory emf = cache.get(persistUnit);
     if (emf == null) {
-      emf = Persistence.createEntityManagerFactory(persistUnit);
+      try {
+        emf = Persistence.createEntityManagerFactory(persistUnit);
+      } catch (Exception e) {
+        log.error(e.getMessage(), e);
+        throw new DaoException("Failed to create entity manager factory: " + e.getMessage(), e);
+      }
       cache.put(persistUnit, emf);
       log.info("Initialized entity manager factory for persist unit '" + persistUnit + "'.");
     }
