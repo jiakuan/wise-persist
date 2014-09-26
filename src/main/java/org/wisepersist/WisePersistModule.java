@@ -33,6 +33,10 @@ public class WisePersistModule extends AbstractModule {
     this(EntityManagerFactoryProvider.get(persistUnit));
   }
 
+  public WisePersistModule(String persistUnit, DataSourceProvider customDataSource) {
+    this(EntityManagerFactoryProvider.get(persistUnit, customDataSource));
+  }
+
   public WisePersistModule(EntityManagerFactory emf) {
     Preconditions.checkArgument(emf != null, "EntityManagerFactory cannot be null");
     this.emf = emf;
