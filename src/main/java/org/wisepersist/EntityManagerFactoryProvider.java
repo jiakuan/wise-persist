@@ -58,7 +58,7 @@ public class EntityManagerFactoryProvider {
           String jdbcDriver = (String) properties.get("javax.persistence.jdbc.driver");
           String jdbcUser = (String) properties.get("javax.persistence.jdbc.user");
           String jdbcPass = (String) properties.get("javax.persistence.jdbc.password");
-          DataSource dataSource = dsProvider.build(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
+          DataSource dataSource = dsProvider.get(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
 
           Map<String, Object> additionalProperties = Maps.newHashMap();
           additionalProperties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, dataSource);
