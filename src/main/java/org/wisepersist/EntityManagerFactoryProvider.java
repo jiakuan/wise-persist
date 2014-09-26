@@ -54,6 +54,8 @@ public class EntityManagerFactoryProvider {
         Map<String, Object> properties = emf.getProperties();
 
         if (dsProvider != null) {
+          emf.close();
+
           String jdbcUrl = (String) properties.get("javax.persistence.jdbc.url");
           String jdbcDriver = (String) properties.get("javax.persistence.jdbc.driver");
           String jdbcUser = (String) properties.get("javax.persistence.jdbc.user");
