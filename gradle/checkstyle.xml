@@ -14,12 +14,12 @@ page at http://checkstyle.sourceforge.net/config.html -->
 <module name="Checker">
 
   <module name="RegexpSingleline">
-    <!-- Requires a Practice Insight copyright notice in each file.
+    <!-- Requires a WisePersist copyright notice in each file.
       Code intended to be open-sourced may have a multi-line copyright
       notice, so that this required text appears on the second line:
       <pre>
         /*
-         * Copyright (c) 2014 Practice Insight Pty Ltd
+         * Copyright (c) 2014 WisePersist
          *
          * (details of open-source license...)
       </pre>
