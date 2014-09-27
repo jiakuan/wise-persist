@@ -33,8 +33,8 @@ public class WisePersistModule extends AbstractModule {
     this(EntityManagerFactoryProvider.get(persistUnit));
   }
 
-  public WisePersistModule(String persistUnit, DataSourceProvider customDataSource) {
-    this(EntityManagerFactoryProvider.get(persistUnit, customDataSource));
+  public WisePersistModule(String persistUnit, DataSourceProvider dsProvider) {
+    this(EntityManagerFactoryProvider.get(persistUnit, dsProvider));
   }
 
   public WisePersistModule(EntityManagerFactory emf) {
@@ -65,7 +65,8 @@ public class WisePersistModule extends AbstractModule {
     if (equals) {
       throw new DaoException(
           "Only one WisePersistModule can be created in one Guice injector. " +
-          "If you need to access multiple data sources, please create separately Guice injectors.");
+          "If you need to access multiple data sources, " +
+          "please create multiple separate Guice injectors.");
     } else {
       return false;
     }
