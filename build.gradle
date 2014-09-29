@@ -58,7 +58,7 @@ dependencies {
 
     // Persist
     compile 'org.eclipse.persistence:javax.persistence:2.1.0'
-    compile 'org.eclipse.persistence:org.eclipse.persistence.jpa:2.5.1'
+    compile 'org.eclipse.persistence:org.eclipse.persistence.jpa:2.5.2'
 
     // Utilities
     compile 'com.google.guava:guava:17.0'

@@ -24,8 +24,15 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
@@ -43,6 +50,18 @@ public class EntityManagerFactoryProvider {
     return get(persistUnit, null);
   }
 
+  public static List<InputStream> loadResources(
+      final String name, final ClassLoader classLoader) throws IOException {
+    final List<InputStream> list = new ArrayList<InputStream>();
+    final Enumeration<URL> systemResources =
+        (classLoader == null ? ClassLoader.getSystemClassLoader() : classLoader)
+            .getResources(name);
+    while (systemResources.hasMoreElements()) {
+      list.add(systemResources.nextElement().openStream());
+    }
+    return list;
+  }
+
   public static EntityManagerFactory get(String persistUnit, DataSourceProvider dsProvider) {
     Preconditions.checkArgument(
         !Strings.isNullOrEmpty(persistUnit), "persistUnit cannot be null or empty");
@@ -51,18 +70,20 @@ public class EntityManagerFactoryProvider {
     if (emf == null) {
       try {
         emf = Persistence.createEntityManagerFactory(persistUnit);
-        Map<String, Object> properties = emf.getProperties();
-
         if (dsProvider != null) {
-          emf.close();
+          EntityManager em = emf.createEntityManager();
+          Map<String, Object> properties = emf.getProperties();
 
           String jdbcUrl = (String) properties.get("javax.persistence.jdbc.url");
           String jdbcDriver = (String) properties.get("javax.persistence.jdbc.driver");
           String jdbcUser = (String) properties.get("javax.persistence.jdbc.user");
           String jdbcPass = (String) properties.get("javax.persistence.jdbc.password");
-          DataSource dataSource = dsProvider.get(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
+
+          em.close();
+          emf.close();
 
           Map<String, Object> additionalProperties = Maps.newHashMap();
+          DataSource dataSource = dsProvider.get(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
           additionalProperties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, dataSource);
           emf = Persistence.createEntityManagerFactory(persistUnit, additionalProperties);
         }
