@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +69,7 @@ public class EntityManagerFactoryProvider {
         !Strings.isNullOrEmpty(persistUnit), "persistUnit cannot be null or empty");
 
     if (additionalProperties == null) {
-      additionalProperties = new HashMap<>();
+      additionalProperties = Maps.newHashMap();
     }
 
     EntityManagerFactory emf = cache.get(persistUnit);

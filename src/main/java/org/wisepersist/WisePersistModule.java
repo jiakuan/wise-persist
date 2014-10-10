@@ -35,6 +35,10 @@ public class WisePersistModule extends AbstractModule {
     this(EntityManagerFactoryProvider.get(persistUnit));
   }
 
+  public WisePersistModule(String persistUnit, Map<String, Object> additionalProperties) {
+    this(EntityManagerFactoryProvider.get(persistUnit, null, additionalProperties));
+  }
+
   public WisePersistModule(String persistUnit, DataSourceProvider dsProvider) {
     this(EntityManagerFactoryProvider.get(persistUnit, dsProvider, null));
   }
@@ -43,12 +47,16 @@ public class WisePersistModule extends AbstractModule {
    * @param additionalProperties Any properties specified in this map will override the default
    *                             settings defined in persistUnit.
    */
-  public WisePersistModule(String persistUnit,
-                           DataSourceProvider dsProvider,
+  public WisePersistModule(String persistUnit, DataSourceProvider dsProvider,
                            Map<String, Object> additionalProperties) {
     this(EntityManagerFactoryProvider.get(persistUnit, dsProvider, additionalProperties));
   }
 
+  /**
+   * @param emf custom entity manager factory.
+   * @deprecated this method will be removed in future releases.
+   */
+  @Deprecated
   public WisePersistModule(EntityManagerFactory emf) {
     Preconditions.checkArgument(emf != null, "EntityManagerFactory cannot be null");
     this.emf = emf;
