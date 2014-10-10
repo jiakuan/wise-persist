@@ -20,6 +20,8 @@ import com.google.common.base.Preconditions;
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 
+import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -34,7 +36,17 @@ public class WisePersistModule extends AbstractModule {
   }
 
   public WisePersistModule(String persistUnit, DataSourceProvider dsProvider) {
-    this(EntityManagerFactoryProvider.get(persistUnit, dsProvider));
+    this(EntityManagerFactoryProvider.get(persistUnit, dsProvider, null));
+  }
+
+  /**
+   * @param additionalProperties Any properties specified in this map will override the default
+   *                             settings defined in persistUnit.
+   */
+  public WisePersistModule(String persistUnit,
+                           DataSourceProvider dsProvider,
+                           Map<String, Object> additionalProperties) {
+    this(EntityManagerFactoryProvider.get(persistUnit, dsProvider, additionalProperties));
   }
 
   public WisePersistModule(EntityManagerFactory emf) {

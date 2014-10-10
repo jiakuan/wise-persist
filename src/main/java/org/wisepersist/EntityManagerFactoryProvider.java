@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class EntityManagerFactoryProvider {
   private static final Map<String, EntityManagerFactory> cache = Maps.newHashMap();
 
   public static EntityManagerFactory get(String persistUnit) {
-    return get(persistUnit, null);
+    return get(persistUnit, null, null);
   }
 
   public static List<InputStream> loadResources(
@@ -62,16 +63,23 @@ public class EntityManagerFactoryProvider {
     return list;
   }
 
-  public static EntityManagerFactory get(String persistUnit, DataSourceProvider dsProvider) {
+  public static EntityManagerFactory get(String persistUnit,
+                                         DataSourceProvider dsProvider,
+                                         Map<String, Object> additionalProperties) {
     Preconditions.checkArgument(
         !Strings.isNullOrEmpty(persistUnit), "persistUnit cannot be null or empty");
+
+    if (additionalProperties == null) {
+      additionalProperties = new HashMap<>();
+    }
 
     EntityManagerFactory emf = cache.get(persistUnit);
     if (emf == null) {
       try {
-        emf = Persistence.createEntityManagerFactory(persistUnit);
+        emf = Persistence.createEntityManagerFactory(persistUnit, additionalProperties);
         if (dsProvider != null) {
           EntityManager em = emf.createEntityManager();
+
           Map<String, Object> properties = emf.getProperties();
 
           String jdbcUrl = (String) properties.get("javax.persistence.jdbc.url");
@@ -82,7 +90,6 @@ public class EntityManagerFactoryProvider {
           em.close();
           emf.close();
 
-          Map<String, Object> additionalProperties = Maps.newHashMap();
           DataSource dataSource = dsProvider.get(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
           additionalProperties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, dataSource);
           emf = Persistence.createEntityManagerFactory(persistUnit, additionalProperties);
