@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 WiseTime Team.
+ * Copyright 2014 WisePersist.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ apply plugin: 'signing'
 
 group = 'org.wisepersist'
 archivesBaseName = 'wise-persist'
-version = '1.0.4-SNAPSHOT'
+version = '1.0.3'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
