@@ -24,12 +24,6 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -50,18 +44,17 @@ public class EntityManagerFactoryProvider {
     return get(persistUnit, null, null);
   }
 
-  public static List<InputStream> loadResources(
-      final String name, final ClassLoader classLoader) throws IOException {
-    final List<InputStream> list = new ArrayList<InputStream>();
-    final Enumeration<URL> systemResources =
-        (classLoader == null ? ClassLoader.getSystemClassLoader() : classLoader)
-            .getResources(name);
-    while (systemResources.hasMoreElements()) {
-      list.add(systemResources.nextElement().openStream());
-    }
-    return list;
-  }
-
+  /**
+   * Creates a new entity manager factory if it doesn't exist in cache.
+   *
+   * @param persistUnit          persist unit name configured in
+   *                             a <code>persistence.xml</code> file.
+   * @param dsProvider           custom data source provider, could be null.
+   *                             See {@link org.wisepersist.DataSourceProvider}
+   * @param additionalProperties additional properties for the entity manager
+   *                             factory we are creating.
+   * @return the entity manager factory.
+   */
   public static EntityManagerFactory get(String persistUnit,
                                          DataSourceProvider dsProvider,
                                          Map<String, Object> additionalProperties) {
