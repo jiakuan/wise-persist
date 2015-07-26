@@ -150,8 +150,8 @@ uploadArchives {
                         id 'jiakuan'
                         name 'Jiakuan Wang'
                         email 'jiakuan.wang@gmail.com'
-                        organization 'Headwise Systems'
-                        organizationUrl 'http://headwise.systems'
+                        organization 'Practice Insight'
+                        organizationUrl 'http://practiceinsight.io'
                         roles {
                             role 'architect'
                             role 'developer'
