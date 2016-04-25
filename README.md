@@ -15,7 +15,7 @@ To add the dependency to your `build.gradle` (for Gradle projects) or `pom.xml` 
 For Gradle projects:
 
 ```
-compile 'org.wisepersist:wise-persist:1.0.2'
+compile 'org.wisepersist:wise-persist:1.0.3'
 ```
 
 For Maven projects:
@@ -24,17 +24,17 @@ For Maven projects:
 <dependency>
     <groupId>org.wisepersist</groupId>
     <artifactId>wise-persist</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
-If you would like to use the 1.0.3-SNAPSHOT release, use this configuration.
+If you would like to use the 1.0.4-SNAPSHOT release, use this configuration.
 
 ```
 <dependency>
     <groupId>org.wisepersist</groupId>
     <artifactId>wise-persist</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
 </dependency>
 ```
 
