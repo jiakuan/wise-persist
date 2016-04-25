@@ -64,6 +64,8 @@ public class WisePersistModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(EntManagerProvider.class).toInstance(new EntManagerProvider(emf));
+
     DaoMethodInterceptor transactionalInterceptor = new DaoMethodInterceptor(emf, true);
     requestInjection(transactionalInterceptor);
     bindInterceptor(
