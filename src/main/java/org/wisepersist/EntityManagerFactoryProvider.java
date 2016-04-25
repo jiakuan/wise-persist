@@ -20,7 +20,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,12 +46,9 @@ public class EntityManagerFactoryProvider {
   /**
    * Creates a new entity manager factory if it doesn't exist in cache.
    *
-   * @param persistUnit          persist unit name configured in
-   *                             a <code>persistence.xml</code> file.
-   * @param dsProvider           custom data source provider, could be null.
-   *                             See {@link org.wisepersist.DataSourceProvider}
-   * @param additionalProperties additional properties for the entity manager
-   *                             factory we are creating.
+   * @param persistUnit          persist unit name configured in a <code>persistence.xml</code> file.
+   * @param dsProvider           custom data source provider, could be null. See {@link org.wisepersist.DataSourceProvider}
+   * @param additionalProperties additional properties for the entity manager factory we are creating.
    * @return the entity manager factory.
    */
   public static EntityManagerFactory get(String persistUnit,
@@ -83,7 +79,7 @@ public class EntityManagerFactoryProvider {
           emf.close();
 
           DataSource dataSource = dsProvider.get(jdbcUrl, jdbcDriver, jdbcUser, jdbcPass);
-          additionalProperties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, dataSource);
+          additionalProperties.put("javax.persistence.nonJtaDataSource", dataSource);
           emf = Persistence.createEntityManagerFactory(persistUnit, additionalProperties);
         }
       } catch (Exception e) {
