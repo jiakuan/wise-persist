@@ -23,6 +23,8 @@ import com.google.inject.matcher.Matchers;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.sql.DataSource;
 
 /**
  * Wrapper to inject EntityManagerFactory objects as required.
@@ -44,13 +46,27 @@ public class WisePersistModule extends AbstractModule {
   }
 
   /**
-   * @param additionalProperties Any properties specified in this map will override the default
-   *                             settings defined in persistUnit.
+   * @param additionalProperties Any properties specified in this map will override the default settings defined in
+   *                             persistUnit.
    */
   public WisePersistModule(String persistUnit, DataSourceProvider dsProvider,
                            Map<String, Object> additionalProperties) {
     this(EntityManagerFactoryProvider.get(persistUnit, dsProvider, additionalProperties));
   }
+
+  /**
+   * @param additionalProperties Any properties specified in this map will override the default settings defined in
+   *                             persistUnit.
+   */
+  public WisePersistModule(String persistUnit, DataSource dataSource,
+                           Map<String, Object> additionalProperties) {
+
+    if (dataSource != null) {
+      additionalProperties.put("javax.persistence.nonJtaDataSource", dataSource);
+    }
+    this.emf = Persistence.createEntityManagerFactory(persistUnit, additionalProperties);
+  }
+
 
   /**
    * @param emf custom entity manager factory.
@@ -87,8 +103,8 @@ public class WisePersistModule extends AbstractModule {
     if (equals) {
       throw new DaoException(
           "Only one WisePersistModule can be created in one Guice injector. " +
-          "If you need to access multiple data sources, " +
-          "please create multiple separate Guice injectors.");
+              "If you need to access multiple data sources, " +
+              "please create multiple separate Guice injectors.");
     } else {
       return false;
     }

@@ -23,5 +23,5 @@ import javax.sql.DataSource;
  */
 public interface DataSourceProvider {
 
-  public DataSource get(String jdbcUrl, String jdbcDriver, String jdbcUser, String jdbcPassword);
+  DataSource get(String jdbcUrl, String jdbcDriver, String jdbcUser, String jdbcPassword);
 }
