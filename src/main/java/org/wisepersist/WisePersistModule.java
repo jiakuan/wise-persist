@@ -70,9 +70,7 @@ public class WisePersistModule extends AbstractModule {
 
   /**
    * @param emf custom entity manager factory.
-   * @deprecated this method will be removed in future releases.
    */
-  @Deprecated
   public WisePersistModule(EntityManagerFactory emf) {
     Preconditions.checkArgument(emf != null, "EntityManagerFactory cannot be null");
     this.emf = emf;
