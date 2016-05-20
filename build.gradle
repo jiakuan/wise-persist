@@ -21,7 +21,7 @@ apply plugin: 'signing'
 
 group = 'org.wisepersist'
 archivesBaseName = 'wise-persist'
-version = '1.0.4-SNAPSHOT'
+version = '1.0.4'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -42,7 +42,7 @@ configurations.all {
 
         // force certain versions of dependencies (including transitive)
         //  *append new forced modules:
-        force 'xml-apis:xml-apis:2.0.2',
+        force 'xml-apis:xml-apis:1.4.01',
               'org.slf4j:slf4j-api:1.7.6'
     }
 }
@@ -70,7 +70,6 @@ dependencies {
 
     // Persist
     testCompile 'org.eclipse.persistence:org.eclipse.persistence.jpa:2.5.2'
-
 
     /*
       This is required by logback confitional processing, for more info please
@@ -173,25 +172,3 @@ uploadArchives {
 //        }
 //    }
 //}
-
-task createPom << {
-    pom {
-        project {
-            packaging 'jar'
-            build {
-                plugins {
-                    plugin {
-                        groupId 'org.apache.maven.plugins'
-                        artifactId 'maven-compiler-plugin'
-                        version '3.1'
-                        configuration {
-                            source '1.7'
-                            target '1.7'
-                            encoding 'UTF-8'
-                        }
-                    }
-                }
-            }
-        }
-    }.writeTo("$projectDir/pom.xml")
-}

@@ -46,9 +46,12 @@ public class EntityManagerFactoryProvider {
   /**
    * Creates a new entity manager factory if it doesn't exist in cache.
    *
-   * @param persistUnit          persist unit name configured in a <code>persistence.xml</code> file.
-   * @param dsProvider           custom data source provider, could be null. See {@link org.wisepersist.DataSourceProvider}
-   * @param additionalProperties additional properties for the entity manager factory we are creating.
+   * @param persistUnit          persist unit name configured in a
+   *                             <code>persistence.xml</code> file.
+   * @param dsProvider           custom data source provider, could be null.
+   *                             See {@link org.wisepersist.DataSourceProvider}
+   * @param additionalProperties additional properties for the entity manager factory
+   *                             we are creating.
    * @return the entity manager factory.
    */
   public static EntityManagerFactory get(String persistUnit,
