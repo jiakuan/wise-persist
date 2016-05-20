@@ -46,8 +46,10 @@ public class WisePersistModule extends AbstractModule {
   }
 
   /**
-   * @param additionalProperties Any properties specified in this map will override the default settings defined in
-   *                             persistUnit.
+   * @param persistUnit          Name of the persist unit.
+   * @param dsProvider           Data source provider.
+   * @param additionalProperties Any properties specified in this map will override the default
+   *                             settings defined in persistUnit.
    */
   public WisePersistModule(String persistUnit, DataSourceProvider dsProvider,
                            Map<String, Object> additionalProperties) {
@@ -55,8 +57,10 @@ public class WisePersistModule extends AbstractModule {
   }
 
   /**
-   * @param additionalProperties Any properties specified in this map will override the default settings defined in
-   *                             persistUnit.
+   * @param persistUnit          Name of the persist unit.
+   * @param dataSource           Data source.
+   * @param additionalProperties Any properties specified in this map will override the default
+   *                             settings defined in persistUnit.
    */
   public WisePersistModule(String persistUnit, DataSource dataSource,
                            Map<String, Object> additionalProperties) {
@@ -78,7 +82,8 @@ public class WisePersistModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(EntManagerProvider.class).toInstance(new EntManagerProvider(emf));
+    bind(AutoCloseableEntityManagerProvider.class)
+        .toInstance(new AutoCloseableEntityManagerProvider(emf));
 
     DaoMethodInterceptor transactionalInterceptor = new DaoMethodInterceptor(emf, true);
     requestInjection(transactionalInterceptor);
@@ -97,12 +102,12 @@ public class WisePersistModule extends AbstractModule {
     // WisePersistModule instances can exist in different Guice injector
     // http://stackoverflow.com/questions/20735211/ensure-module-is-loaded-only-once-in-guice
     // http://www.mattinsler.com/post/26548709502/google-guice-module-de-duplication
-    boolean equals = (this == o) || !(o == null || getClass() != o.getClass());
+    boolean equals = this == o || !(o == null || getClass() != o.getClass());
     if (equals) {
       throw new DaoException(
           "Only one WisePersistModule can be created in one Guice injector. " +
-              "If you need to access multiple data sources, " +
-              "please create multiple separate Guice injectors.");
+          "If you need to access multiple data sources, " +
+          "please create multiple separate Guice injectors.");
     } else {
       return false;
     }
